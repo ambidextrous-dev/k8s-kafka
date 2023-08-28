@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kafka-dev-pv1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  hostPath: #TODO: move away from hostPath
+    path: /mnt/kubernetes/kafka-cluster/kafka-datadir1
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kafka-dev-pv2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  hostPath:
+    path: /mnt/kubernetes/kafka-cluster/kafka-datadir2
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kafka-dev-pv3
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  hostPath:
+    path: /mnt/kubernetes/kafka-cluster/kafka-datadir3
+  volumeMode: Filesystem

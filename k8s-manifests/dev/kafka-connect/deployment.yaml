@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-connect
+  namespace: kafka
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kafka-connect
+  template:
+    metadata:
+      labels:
+        app: kafka-connect
+    spec:
+      containers:
+        - name: kafka-connect
+          image: confluentinc/cp-kafka-connect:7.4.1
+          env:
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: "kafka-broker-0.kafka-broker-headless.kafka.svc.cluster.local:9094,kafka-broker-1.kafka-broker-headless.kafka.svc.cluster.local:9094,kafka-broker-2.kafka-broker-headless.kafka.svc.cluster.local:9094"
+            - name: CONNECT_CONFIG_STORAGE_TOPIC
+              value: connect-configs
+            - name: CONNECT_GROUP_ID
+              value: kafka-connect-dev
+            - name: CONNECT_KEY_CONVERTER
+              value: io.confluent.connect.avro.AvroConverter
+            - name: CONNECT_VALUE_CONVERTER
+              value: io.confluent.connect.avro.AvroConverter
+            - name: CONNECT_OFFSET_STORAGE_TOPIC
+              value: "kafka-connect-offsets"
+            - name: CONNECT_STATUS_STORAGE_TOPIC
+              value: "kafka-connect-status"
+            - name: CONNECT_SECURITY_PROTOCOL
+              value: "SSL"
+            - name: CONNECT_SSL_TRUSTSTORE_LOCATION
+              value: /etc/kafka/secrets/kafka.truststore.jks
+            - name: CONNECT_SSL_TRUSTSTORE_PASSWORD
+              value: <<SuperStrongTrustStorePassword>>
+            - name: CONNECT_SSL_KEYSTORE_LOCATION
+              value: /etc/kafka/secrets/kafka-connect.keystore.jks
+            - name: CONNECT_SSL_KEYSTORE_PASSWORD
+              value: <<SuperStrongKeyStorePassword>>
+            - name: CONNECT_PLUGIN_PATH
+              value: "/usr/share/java"
+            - name: CONNECT_REST_ADVERTISED_HOST_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL
+              value: http://<<schemaregistryserver>>:30092
+            - name: CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL
+              value: http://<<schemaregistryserver>>:30092
+          volumeMounts:
+            - name: secrets-volume
+              mountPath: /etc/kafka/secrets
+            - name: config-volume
+              mountPath: /etc/kafka/connect
+      volumes:
+        - name: secrets-volume
+          secret:
+            secretName: kafka-connect-ssl
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: kafka-connect-dev-config-pvc

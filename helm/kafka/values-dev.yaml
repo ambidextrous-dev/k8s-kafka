@@ -1,0 +1,57 @@
+image:
+  tag: 3.5.1-debian-11-r16
+  pullPolicy: Always
+
+existingLog4jConfigMap: "kafka-log4j-config"
+
+kraft:
+  enabled: false
+
+auth:
+  interBrokerProtocol: tls
+
+broker:
+  replicaCount: 3
+  podAntiAffinityPreset: hard
+
+controller:
+  replicaCount: 0
+
+zookeeper:
+  enabled: true
+  replicaCount: 3
+
+listeners:
+  client:
+    protocol: SSL
+
+  interbroker:
+    protocol: SSL
+
+  external:
+    protocol: SSL
+
+tls:
+  type: jks
+  existingSecret: kafka-tls
+  keystorePassword: superStrongKeystorePassword
+  truststorePassword: superStrongTruststorePassword
+
+externalAccess:
+  enabled: true
+  broker:
+    service:
+      type: NodePort
+      nodePorts:
+        - 31095
+        - 31096
+        - 31097
+      externalIPs:
+        - <<Node1IP>>
+        - <<Node2IP>>
+        - <<Node3IP>>
+
+  controller:
+    service:
+      type: ClusterIP
+      domain: kafka-dev.company.com # not being used currently

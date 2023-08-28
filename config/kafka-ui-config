@@ -1,0 +1,47 @@
+# Kafka UI Config for two kafka clusters
+---
+version: "3.4"
+services:
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - kafka
+    environment:
+      #Dev Kafka Configuration
+      KAFKA_CLUSTERS_0_NAME: kafka-dev
+      KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL: SSL
+      KAFKA_CLUSTERS_0_PROPERTIES_SSL_KEYSTORE_LOCATION: /dev.kafka.keystore.jks
+      KAFKA_CLUSTERS_0_PROPERTIES_SSL_KEYSTORE_PASSWORD: "superStrongPassword"
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: dev-bootstrapserver1:31095,dev-bootstrapserver2:31096,dev-bootstrapserver3:31097
+      KAFKA_CLUSTERS_0_SSL_TRUSTSTORELOCATION: /dev.kafka.truststore.jks
+      KAFKA_CLUSTERS_0_SSL_TRUSTSTOREPASSWORD: "superStrongPassword"
+      KAFKA_CLUSTERS_0_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: "" # DISABLE COMMON NAME VERIFICATION
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://dev-schemaregistryserver:30092
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: dev-worker1
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://dev-kafkaconnectserver:30099
+
+      #Test Kafka Configuration
+      KAFKA_CLUSTERS_1_NAME: kafka-test
+      KAFKA_CLUSTERS_1_PROPERTIES_SECURITY_PROTOCOL: SSL
+      KAFKA_CLUSTERS_1_PROPERTIES_SSL_KEYSTORE_LOCATION: /test.kafka.keystore.jks
+      KAFKA_CLUSTERS_1_PROPERTIES_SSL_KEYSTORE_PASSWORD: "superStrongPassword"
+      KAFKA_CLUSTERS_1_BOOTSTRAPSERVERS: test-bootstrapserver1:31095,test-bootstrapserver2:31096,test-bootstrapserver3:31097
+      KAFKA_CLUSTERS_1_SSL_TRUSTSTORELOCATION: /test.kafka.truststore.jks
+      KAFKA_CLUSTERS_1_SSL_TRUSTSTOREPASSWORD: "superStrongPassword"
+      KAFKA_CLUSTERS_1_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
+      KAFKA_CLUSTERS_1_SCHEMAREGISTRY: http://test-schemaregistryserver:30092
+      KAFKA_CLUSTERS_1_KAFKACONNECT_0_NAME: test-worker1
+      KAFKA_CLUSTERS_1_KAFKACONNECT_0_ADDRESS: http://test-schemaregistryserver:30099
+
+      #Security
+      AUTH_TYPE: "LOGIN_FORM"
+      SPRING_SECURITY_USER_NAME: admin
+      SPRING_SECURITY_USER_PASSWORD: test123!
+    volumes:
+      - ./kafka-ui/dev/kafka.truststore.jks:/dev.kafka.truststore.jks
+      - ./kafka-ui/dev/kafka-dev-client.keystore.jks:/dev.kafka.keystore.jks
+      - ./kafka-ui/test/kafka.truststore.jks:/test.kafka.truststore.jks
+      - ./kafka-ui/test/kafka-test-client.keystore.jks:/test.kafka.keystore.jks
