@@ -6,9 +6,10 @@ spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 8Gi
-  hostPath: #TODO: move away from hostPath
-    path: /mnt/kubernetes/kafka-cluster/kafka-datadir1
+    storage: 10Gi
+  nfs:
+    server: 10.2.2.10 #TODO: update with correct NFS server
+    path: /mnt/kafka/kafka-broker1
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -20,8 +21,9 @@ spec:
     - ReadWriteOnce
   capacity:
     storage: 8Gi
-  hostPath:
-    path: /mnt/kubernetes/kafka-cluster/kafka-datadir2
+  nfs:
+    server: 10.2.2.10 #TODO: update with correct NFS server
+    path: /mnt/kafka/kafka-broker2
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -33,6 +35,7 @@ spec:
     - ReadWriteOnce
   capacity:
     storage: 8Gi
-  hostPath:
-    path: /mnt/kubernetes/kafka-cluster/kafka-datadir3
+  nfs:
+    server: 10.2.2.10 #TODO: update with correct NFS server
+    path: /mnt/kafka/kafka-broker3
   volumeMode: Filesystem

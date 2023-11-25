@@ -6,9 +6,10 @@ spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 8Gi
-  hostPath: #TODO: move away from hostPath
-    path: /mnt/kubernetes/kafka-cluster/zookeeper-datadir1
+    storage: 10Gi
+  nfs:
+    server: 10.2.2.10 #TODO: update with correct NFS server
+    path: /mnt/kafka/kafka-zk1
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -19,9 +20,10 @@ spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 8Gi
-  hostPath:
-    path: /mnt/kubernetes/kafka-cluster/zookeeper-datadir2
+    storage: 10Gi
+  nfs:
+    server: 10.2.2.10 #TODO: update with correct NFS server
+    path: /mnt/kafka/kafka-zk2
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -32,7 +34,8 @@ spec:
   accessModes:
     - ReadWriteOnce
   capacity:
-    storage: 8Gi
-  hostPath:
-    path: /mnt/kubernetes/kafka-cluster/zookeeper-datadir2
+    storage: 10Gi
+  nfs:
+    server: 10.2.2.10 #TODO: update with correct NFS server
+    path: /mnt/kafka/kafka-zk3
   volumeMode: Filesystem

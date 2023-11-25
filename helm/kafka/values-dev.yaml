@@ -1,5 +1,5 @@
 image:
-  tag: 3.5.1-debian-11-r16
+  tag: 3.5.1-debian-11-r25 #update as per latest chart version
   pullPolicy: Always
 
 existingLog4jConfigMap: "kafka-log4j-config"
@@ -20,6 +20,7 @@ controller:
 zookeeper:
   enabled: true
   replicaCount: 3
+  podAntiAffinityPreset: hard
 
 listeners:
   client:
@@ -34,8 +35,9 @@ listeners:
 tls:
   type: jks
   existingSecret: kafka-tls
-  keystorePassword: superStrongKeystorePassword
-  truststorePassword: superStrongTruststorePassword
+  passwordsSecret: kafka-tls-passwords
+  passwordsSecretKeystoreKey: keystore-password
+  passwordsSecretTruststoreKey: truststore-password
 
 externalAccess:
   enabled: true
@@ -43,9 +45,9 @@ externalAccess:
     service:
       type: NodePort
       nodePorts:
-        - 31095
-        - 31096
-        - 31097
+        - 30066
+        - 30067
+        - 30068
       externalIPs:
         - <<Node1IP>>
         - <<Node2IP>>
@@ -54,4 +56,4 @@ externalAccess:
   controller:
     service:
       type: ClusterIP
-      domain: kafka-dev.company.com # not being used currently
+      domain: kafka-dev.example.com # not being used currently

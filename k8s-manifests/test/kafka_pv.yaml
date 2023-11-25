@@ -4,7 +4,7 @@ metadata:
   name: kafka-pv1
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 8Gi
   hostPath:
@@ -17,7 +17,7 @@ metadata:
   name: kafka-pv2
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 8Gi
   hostPath:
@@ -30,7 +30,7 @@ metadata:
   name: kafka-pv3
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 8Gi
   hostPath:

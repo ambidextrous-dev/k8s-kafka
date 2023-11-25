@@ -7,7 +7,7 @@ metadata:
 spec:
   storageClassName: local-storage
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 8Gi
   hostPath:
@@ -21,7 +21,7 @@ metadata:
   namespace: kafka
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
