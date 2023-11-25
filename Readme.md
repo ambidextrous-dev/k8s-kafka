@@ -1,4 +1,4 @@
-# cs-kafka
+# k8s-kafka
 This repo deploys a mTLS enabled kafka cluster on a kubernetes cluster. The kafka cluster consists of zookeeper, kafka brokers, schema registry, and kafka connect
 
 ## Steps
@@ -15,5 +15,5 @@ This repo deploys a mTLS enabled kafka cluster on a kubernetes cluster. The kafk
     iii) **kafka-connect-ssl**
         - contains a truststore (kafka.truststore.jks) and a keystore (kafka-connect.keystore.jks) for the kafka connect
 
-3) Run the jenkins pipeline cs-kafka to deploy the cluster in the required kubernetes cluster
+3) Run the jenkins pipeline k8s-kafka to deploy the cluster in the required kubernetes cluster
 
