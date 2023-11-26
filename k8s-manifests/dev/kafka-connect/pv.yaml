@@ -7,11 +7,12 @@ metadata:
 spec:
   storageClassName: local-storage
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
-    storage: 8Gi
-  hostPath: # TODO: move away from Hostpath
-    path: /mnt/kubernetes/kafka-cluster/kafka-connect-1
+    storage: 10Gi
+  nfs:
+    server: 10.2.2.10 #TODO: update with correct NFS server
+    path: /mnt/kafka/kafka-connect1
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -21,7 +22,7 @@ metadata:
   namespace: kafka
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi

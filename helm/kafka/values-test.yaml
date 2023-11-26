@@ -43,9 +43,9 @@ externalAccess:
     service:
       type: NodePort
       nodePorts:
-        - 31095
-        - 31096
-        - 31097
+        - 30066
+        - 30067
+        - 30068
       externalIPs:
         - <<Node1IP>>
         - <<Node2IP>>

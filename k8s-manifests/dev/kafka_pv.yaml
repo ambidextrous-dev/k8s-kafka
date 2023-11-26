@@ -4,7 +4,7 @@ metadata:
   name: kafka-dev-pv1
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 10Gi
   nfs:
@@ -18,7 +18,7 @@ metadata:
   name: kafka-dev-pv2
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 8Gi
   nfs:
@@ -32,7 +32,7 @@ metadata:
   name: kafka-dev-pv3
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   capacity:
     storage: 8Gi
   nfs:
